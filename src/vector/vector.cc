@@ -73,3 +73,50 @@ NAN_METHOD(Vector::Add)
 
     v8::Local<v8::Object> jsSumVec = Nan::NewInstance(constructorFunc, argc, argv).ToLocalChecked();
 }
+
+NAN_GETTER(Vector::HandleGetters)
+{
+    Vector* self = Nan::ObjectWrap::Unwrap<Vector>(info.This());
+
+    std::string propertyName = std::string(*Nan::Utf8String(property));
+
+    if(propertyName == "x")
+    {
+        info.GetReturnValue().Set(self->x);
+    }
+    else if(propertyName == "y")
+    {
+        info.GetReturnValue().Set(self->y);
+    }
+    else if(propertyName == "z")
+    {
+        info.GetReturnValue().Set(self->z);
+    }
+    else
+    {
+        info.GetReturnValue().Set(Nan::Undefined());;
+    }
+}
+
+NAN_SETTER(Vector::HandleSetters) {
+    Vector* self = Nan::ObjectWrap::Unwrap<Vector>(info.This());
+
+    if(!value->IsNumber()) 
+    {
+        return Nan::ThrowError(Nan::New("expected value to be a number").ToLocalChecked());
+    }
+
+    std::string propertyName = std::string(*Nan::Utf8String(property));
+    if (propertyName == "x") 
+    {
+        self->x = value->NumberValue();
+    } 
+    else if (propertyName == "y") 
+    {
+        self->y = value->NumberValue();
+    } 
+    else if (propertyName == "z") 
+    {
+        self->z = value->NumberValue();
+    }
+}

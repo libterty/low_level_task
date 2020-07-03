@@ -1,5 +1,5 @@
 #include <nan.h>
-#include "Vector.h"
+#include "vector.h"
 
 NAN_MODULE_INIT(InitModule)
 {
